@@ -1,29 +1,64 @@
-import { tshirt } from "./Tshirt";
+import {tshirt} from "./Tshirt.js";
 
-const divTshirtsEle = document.querySelector('#tshirt');
-console.log(divTshirtsEle);
+const divTshirtsEle = document.querySelector('#tshirtList');
+//querySelector ใช้เรียก css ที่ match กับ id tshirtList เพื่อให้ divTshirtsEle นั้นไปอยู่ตำแหน่งเดียวกับ id นั้น
 
+// loop ภายใน array tshirt[] ที่ import มา
+for (let tshirtele of tshirt) {
 const divTshirtEle = document.createElement('div');
-divTshirtEle.setAttribute('id', tshirt.tshirtId);
-console.log(divTshirtEle);
+divTshirtEle.setAttribute('id', tshirtele.tshirtId);
+divTshirtEle.setAttribute('class', "card-group");
+//สร้าง element div โดยให้ id เป็น tshirtId และ class เป็น card group จาก bootstrap
 
-const pTshirtId = document.createElement('p');
-pTshirtId.textContent = 'Id: ' + tshirt.tshirtId;
-divTshirtEle.appendChild(pTshirtId);
-console.log(divTshirtEle);
+const tshirtName = document.createElement('p');
+tshirtName.setAttribute('class', "h5");
+tshirtName.textContent = tshirtele.tshirtName;
+//สร้าง element tag p สำหรับ รายชื่อสินค้าจาก tshirtName ให้ class เป็น h5 (ขนาดตัวอักษรจาก bootstrap)
 
+const tshirtDesc = document.createElement('p');
+tshirtDesc.textContent = 'Description ' + tshirtele.tshirtDesc;
+//สร้าง element tag p สำหรับ คำบรรยายสินค้าจาก tshirtDesc 
 
-const ptshirtDesc = document.createElement('p');
-ptshirtDesc.textContent = 'Description ' + tshirt.tshirtDesc;
-divTshirtEle.appendChild(ptshirtDesc);
-console.log(divTshirtEle);
+const TshirtStock = document.createElement('p')
+TshirtStock.textContent = 'T-shirt Stock : ' + tshirtele.tshirtStock;
+//สร้าง element tag p สำหรับ เก็บจำนวนคงเหลือในคลัง หรือ tshirtStock
 
-const pTshirtStock = document.createElement('p')
-pTshirtStock.textContent = 'T-shirt Stock: ' + tshirt.tshirtStock;
-divTshirtEle.appendChild(pTshirtStock);
-console.log(divTshirtEle);
+const tshirtPrice = document.createElement('p');
+tshirtPrice.textContent = 'Price : ' + tshirtele.tshirtPrice + ' Baht.';
+//สร้าง element tag p สำหรับ ราคา หน่วยเป็นบาท หรือ tshirtPrice 
 
-const ptshirtPrice = document.createElement('p');
-ptshirtPrice.textContent = 'Price :' + tshirt.tshirtPrice + ' Baht.';
-divTshirtEle.appendChild(ptshirtPrice);
-console.log(divTshirtEle);
+const addtoCartButton = document.createElement('button');
+addtoCartButton.textContent = 'Add to cart';
+addtoCartButton.setAttribute("class","btn btn-outline-dark btn-lg");
+addtoCartButton.setAttribute("style","margin: 4px;");
+//สร้าง element button สำหรับปุ่มเพิ่มลงตะหร้า addtocart โดยใช้ bootsttrap ในการตกแต่งเพิ่มเติม 
+
+const tshirtImage = document.createElement('img');
+tshirtImage.setAttribute("src",tshirtele.img);
+tshirtImage.setAttribute("class","card-img-top" );
+tshirtImage.setAttribute("alt",tshirtele.tshirtId );
+//สร้าง element tag img สำหรับรูปภาพสินค้า โดย src จะเก็บที่อยู่ path ของรูปภาพใน folder, 
+//alt จะเก็บ tshirtid และ class เป็น card-img-top สำหรับ bootstrap
+
+const cardBody = document.createElement('div');
+cardBody.setAttribute("class","card-body");
+//สร้าง element div ที่มีclassเป็น card-body สำหรับส่วนที่เป็นเนื้อหา
+
+const card = document.createElement('div');
+card.setAttribute("class","card border-dark");
+//สร้าง element div ที่มี class เป็น card border-dark สำหรับส่วนที่เป็น card ของแต่ละสินค้า
+
+cardBody.appendChild(tshirtName);
+cardBody.appendChild(tshirtDesc);
+cardBody.appendChild(TshirtStock);
+cardBody.appendChild(tshirtPrice);
+//ในส่วนของ card body นำ element ประเภทข้อมูลมาใส่ เช่น ชื่อสินค้า จำนวนสินค้า ราคาสินค้า และ คำบรรยาย
+
+card.appendChild(tshirtImage)
+card.appendChild(cardBody);
+card.appendChild(addtoCartButton);
+//ในส่วนของ element ที่เป็น card จะนำ classbody มาใส่ (appendChild) รวมถึงรูปภาพและปุ่ม
+
+divTshirtEle.appendChild(card)
+divTshirtsEle.appendChild(divTshirtEle);
+}
