@@ -46,28 +46,38 @@ const showTshirt = tshirt => {
 
         const cardBody = document.createElement('div');
         cardBody.setAttribute("class", "card-body");
-        //สร้าง element div ที่มีclassเป็น card-body สำหรับส่วนที่เป็นเนื้อหา
+        //สร้าง element div ที่มี class เป็น card-body สำหรับส่วนที่เป็นเนื้อหา
 
         const card = document.createElement('div');
         card.setAttribute("class", "card border-dark");
-        //สร้าง element div ที่มีclassเป็น card border-dark สำหรับส่วนที่เป็น card ของแต่ละสินค้า
+        //สร้าง element div ที่มี class เป็น card border-dark สำหรับส่วนที่เป็น card ของแต่ละสินค้า
 
         cardBody.appendChild(tshirtName);
         cardBody.appendChild(tshirtDesc);
         cardBody.appendChild(TshirtStock);
         cardBody.appendChild(tshirtPrice);
-        //ในส่วนของ card body นำ element ปรพเภทข้อมูลมาใส่ เช่น ชื่อสินค้า จำนวนสินค้า ราคาสินค้า และ คำบรรยาย
+        //ในส่วนของ card body นำ element ประเภทข้อมูลมาใส่ เช่น ชื่อสินค้า จำนวนสินค้า ราคาสินค้า และ คำบรรยาย
 
         card.appendChild(tshirtImage)
         card.appendChild(cardBody);
         card.appendChild(addtoCartButton);
-        //ในส่วนของ element ที่เป็น card จะนำ classbody มาใส่(append child) รวมถึงรูปภาพและปุ่ม
+        //ในส่วนของ element ที่เป็น card จะนำ classbody มาใส่ (appendChild) รวมถึงรูปภาพและปุ่ม
 
         divTshirtEle.appendChild(card)
         divTshirtsEle.appendChild(divTshirtEle);
     }
 }
 
-const seacrchBar = document.getElementById();
+const searchbtn = document.getElementById("mySearch");
+
+searchbtn.addEventListener("click", () => {
+    const searchBar = document.getElementById("search")
+    if(searchBar.style.display === "none"){
+        searchBar.setAttribute('style', 'display : block !important;')
+    }else{
+        searchBar.setAttribute('style', 'display : none !important;')
+    }
+}, false);
+
 
 
