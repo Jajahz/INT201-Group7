@@ -1,13 +1,13 @@
-import { tshirt } from './Tshirt.js';
+import { tshirts } from './Tshirt.js';
 
 document.addEventListener('DOMContentLoaded', function () {
-  showTshirt(tshirt);
+  showTshirt(tshirts);
 });
 //querySelector ใช้เรียก css ที่ match กับ id tshirtList เพื่อให้ divTshirtsEle นั้นไปอยู่ตำแหน่งเดียวกับ id นั้น
 
-const showTshirt = (tshirt) => {
+const showTshirt = (tshirts) => {
   const divTshirtsEle = document.querySelector('#tshirtList');
-  for (let tshirtele of tshirt) {
+  for (let tshirtele of tshirts) {
     //loop ภายใน array tshirt[] ที่ importมา
     const divTshirtEle = document.createElement('div');
     divTshirtEle.setAttribute('id', tshirtele.tshirtId);
@@ -107,7 +107,7 @@ const searchBar = document.getElementById("searchBar");
 searchBar.addEventListener('keyup', () => {
   const keyType = searchBar.value.trim();
   const keyTypeLower = keyType.toLowerCase();
-  const tshirtMatch = tshirt.filter(tshirt =>
+  const tshirtMatch = tshirts.filter(tshirt =>
     {
       let tshirtNameKey = tshirt.tshirtName.toLowerCase()
       let tshirtDescKey = tshirt.tshirtDesc.toLowerCase()

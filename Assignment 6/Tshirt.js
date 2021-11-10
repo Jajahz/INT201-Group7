@@ -1,4 +1,4 @@
-export const tshirt = [
+export const tshirts = [
     {
         tshirtId: 'T001',
         tshirtName: 'RIPNDIP NERMRIDER BEACH TEE MINT WASH (RND6072)',
