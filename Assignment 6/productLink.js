@@ -25,7 +25,7 @@ searchbtn.addEventListener(
 document.addEventListener('DOMContentLoaded', function () {
   showTshirt(tshirts);
 });
-//querySelector ใช้เรียก css ที่ match กับ id tshirtList เพื่อให้ divTshirtsEle นั้นไปอยู่ตำแหน่งเดียวกับ id นั้น
+//โหลดหน้า html จาก method
 
 
 const searchInput = document.getElementById("searchBar");
@@ -33,12 +33,12 @@ const searchInput = document.getElementById("searchBar");
 
 searchInput.addEventListener(
   'keyup'
-  //ตั้งให้เกิด event เมื่อมีการใส่ค่าเข้าไป
+  //สร้าง event เมื่อมีการ keyup หรือเมื่อมีการกดปุ่มจากแป้นพิมพ์
   , () => {
   const keyType = searchInput.value.trim();
-  // ตั้งให้ค่าที่ใส่เข้ามาลบ whitespace ออกไปให้เหลือแต่ตัวอักษร
+  // สร้างตัวแปร keyType ให้มีค่าเป็นค่าจากแป้นพิมพ์ที่ได้รับมาจาก input และทำการ remove white space ออก (หากมี)
   const keyTypeLower = keyType.toLowerCase();
-  //ตั้งค่าที่ใส่เข้ามาเป็น lowercase ทั้งหมด
+  // สร้างตัวแปร keyTypeLower สำหรับนำค่า keyType มาแปลงเป็นตัวพิมพ์เล็กทั้งหมด
   const tshirtMatch = tshirts.filter(tshirt =>
     {
       let tshirtNameKey = tshirt.tshirtName.toLowerCase()
@@ -46,11 +46,12 @@ searchInput.addEventListener(
 
       return tshirtNameKey.includes(keyTypeLower) ||
       tshirtDescKey.includes(keyTypeLower)
-      //return ค่าที่ตรงกับ tShirtName หรือ tShirtDesc ที่เป็น lowercase
+    // tshirtMatch จะ return tshirts ที่มี name หรือ description เหมือนกับค่าที่ป้อนลงไปใน input
+    // โดยใช้คำส่ง filter โดยภายในจะทำการเปรียบเทียบ name และ description ที่ตรงการข้อมูลที่ป้อนด้วยใช้คำส่าง includes
     }
   )
   return showTshirt(tshirtMatch)
-  //แสดง tShirtMatch
+  // return method showTshirt เฉพาะที่เหมือนกับค่าที่ป้อนลงไป (keyTypeLower) หรือ สินค้าที่อยู่ใน tshirtMatch
 })
 
 const showTshirt = (tshirts) => {
