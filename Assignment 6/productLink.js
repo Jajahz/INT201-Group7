@@ -29,10 +29,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 const searchInput = document.getElementById("searchBar");
+// ตั้งให้ searchInput คือ id searchBar
 
-searchInput.addEventListener('keyup', () => {
+searchInput.addEventListener(
+  'keyup'
+  //ตั้งให้เกิด event เมื่อมีการใส่ค่าเข้าไป
+  , () => {
   const keyType = searchInput.value.trim();
+  // ตั้งให้ค่าที่ใส่เข้ามาลบ whitespace ออกไปให้เหลือแต่ตัวอักษร
   const keyTypeLower = keyType.toLowerCase();
+  //ตั้งค่าที่ใส่เข้ามาเป็น lowercase ทั้งหมด
   const tshirtMatch = tshirts.filter(tshirt =>
     {
       let tshirtNameKey = tshirt.tshirtName.toLowerCase()
@@ -40,15 +46,19 @@ searchInput.addEventListener('keyup', () => {
 
       return tshirtNameKey.includes(keyTypeLower) ||
       tshirtDescKey.includes(keyTypeLower)
+      //return ค่าที่ตรงกับ tShirtName หรือ tShirtDesc ที่เป็น lowercase
     }
   )
   return showTshirt(tshirtMatch)
+  //แสดง tShirtMatch
 })
 
 const showTshirt = (tshirts) => {
   const divTshirtsEle = document.querySelector('#tshirtList');
 
   divTshirtsEle.innerHTML = null;
+  // กำหนด inner html ของ tshirtlist (divTshirtsEle) ให้มีค่า = null 
+  // เพื่อไม่ให้มีข้อมูลสินค้าเก่าออกมาทุกครั้งที่มีการเรียก showTshirt()
 
   for (let tshirtele of tshirts) {
     //loop ภายใน array tshirt[] ที่ import มา
@@ -107,22 +117,29 @@ const showTshirt = (tshirts) => {
     //ในส่วนของ element ที่เป็น card จะนำ classbody มาใส่ (appendChild) รวมถึงรูปภาพและปุ่ม
 
     addtoCartButton.addEventListener('click', () => {
+
       cartnumber(tshirtele.tshirtId);
-    })
-    
-    function cartnumber() {
-    let prodnum = sessionStorage.getItem('cartnumber')
-    
-    prodnum = parseInt(prodnum);
-    
-    if(prodnum){
-    sessionStorage.setItem('cartnumber', prodnum + 1);
-    document.querySelector('.cart span').textContent = prodnum + 1;
-    }else{
-    sessionStorage.setItem('cartnumber', 1);
-    document.querySelector('.cart span').textContent = 1;
-    }
-    }
+
+}) // เป็นฟังก์ชันที่เอาไว้เรียก cartnumber เมื่อ Click          
+
+
+
+function cartnumber() {
+let productnum = sessionStorage.getItem('cartnumber') 
+//เรียกใช้ข้อมูล cartnumber
+productnum = parseInt(productnum); 
+//แปลง productnum ให้เป็นตัวเลขจำนวนเต็มเพื่อนำไปนับ
+
+if(productnum){
+   sessionStorage.setItem('cartnumber', productnum + 1);
+   document.querySelector('.cart span').textContent = productnum + 1; 
+   // เพิ่มตัวเลขของ Cart ตั้งแต่ 1 เป็นต้นไป ถ้าเป็น 0 จะต้องไปที่ else
+}else{
+   sessionStorage.setItem('cartnumber', 1);
+   document.querySelector('.cart span').textContent = 1; 
+   // ถ้า Cart มีค่าเป็น 0 จะมาทำ else เพื่อที่จะนับค่าเป็น 1
+   }
+}
 
     divTshirtEle.appendChild(card);
     divTshirtsEle.appendChild(divTshirtEle);
