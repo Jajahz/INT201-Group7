@@ -1,14 +1,51 @@
 import { tshirts } from './Tshirt.js';
 
+const searchbtn = document.getElementById('mySearch');
+
+searchbtn.addEventListener(
+  'click',
+  () => {
+    const search = document.getElementById('search');
+    if (search.style.display === 'none') {
+      search.setAttribute('style', 'display : flex !important;');
+    } else {
+      search.setAttribute('style', 'display : none !important;');
+    }
+  },
+  false
+);
+
+
 document.addEventListener('DOMContentLoaded', function () {
   showTshirt(tshirts);
 });
 //querySelector ใช้เรียก css ที่ match กับ id tshirtList เพื่อให้ divTshirtsEle นั้นไปอยู่ตำแหน่งเดียวกับ id นั้น
 
+
+const searchInput = document.getElementById("searchBar");
+
+searchInput.addEventListener('keyup', () => {
+  const keyType = searchInput.value.trim();
+  const keyTypeLower = keyType.toLowerCase();
+  const tshirtMatch = tshirts.filter(tshirt =>
+    {
+      let tshirtNameKey = tshirt.tshirtName.toLowerCase()
+      let tshirtDescKey = tshirt.tshirtDesc.toLowerCase()
+
+      return tshirtNameKey.includes(keyTypeLower) ||
+      tshirtDescKey.includes(keyTypeLower)
+    }
+  )
+  return showTshirt(tshirtMatch)
+})
+
 const showTshirt = (tshirts) => {
   const divTshirtsEle = document.querySelector('#tshirtList');
+
+  divTshirtsEle.innerHTML = null;
+
   for (let tshirtele of tshirts) {
-    //loop ภายใน array tshirt[] ที่ importมา
+    //loop ภายใน array tshirt[] ที่ import มา
     const divTshirtEle = document.createElement('div');
     divTshirtEle.setAttribute('id', tshirtele.tshirtId);
     divTshirtEle.setAttribute('class', 'card-group');
@@ -28,7 +65,7 @@ const showTshirt = (tshirts) => {
     //สร้าง element tag p สำหรับ เก็บจำนวนคงเหลือในคลัง หรือ tshirtStock
 
     const tshirtPrice = document.createElement('p');
-    tshirtPrice.textContent = 'Price :' + tshirtele.tshirtPrice + ' Baht.';
+    tshirtPrice.textContent = 'Price : ' + tshirtele.tshirtPrice + ' Baht.';
     //สร้าง element tag p สำหรับ ราคา หน่วยเป็นบาท หรือ tshirtPrice
 
     const addtoCartButton = document.createElement('button');
@@ -85,36 +122,3 @@ const showTshirt = (tshirts) => {
     divTshirtsEle.appendChild(divTshirtEle);
   }
 };
-
-const searchbtn = document.getElementById('mySearch');
-
-searchbtn.addEventListener(
-  'click',
-  () => {
-    const search = document.getElementById('search');
-    if (search.style.display === 'none') {
-      search.setAttribute('style', 'display : flex !important;');
-    } else {
-      search.setAttribute('style', 'display : none !important;');
-    }
-  },
-  false
-);
-
-
-const searchBar = document.getElementById("searchBar");
-
-searchBar.addEventListener('keyup', () => {
-  const keyType = searchBar.value.trim();
-  const keyTypeLower = keyType.toLowerCase();
-  const tshirtMatch = tshirts.filter(tshirt =>
-    {
-      let tshirtNameKey = tshirt.tshirtName.toLowerCase()
-      let tshirtDescKey = tshirt.tshirtDesc.toLowerCase()
-
-      return tshirtNameKey.includes(keyTypeLower) ||
-      tshirtDescKey.includes(keyTypeLower)
-    }
-  )
-  return showTshirt(tshirtMatch)
-})
