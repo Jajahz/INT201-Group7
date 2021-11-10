@@ -1,18 +1,24 @@
 import { tshirts } from './Tshirt.js';
 
 const searchbtn = document.getElementById('mySearch');
+// ตั้งให้ searchbtn คือ id mysearch
 
 searchbtn.addEventListener(
   'click',
+  //ตั้งค่าให้ทำ event นี้เมื่อคลิก
   () => {
     const search = document.getElementById('search');
+    // ตั้งให้ search คือ id search
     if (search.style.display === 'none') {
       search.setAttribute('style', 'display : flex !important;');
+      //ถ้าหาก style ของ div ไม่มีอยู่หรือ none กดแล้วจะให้แสดงออกมา หรือ flex
     } else {
       search.setAttribute('style', 'display : none !important;');
+      //ถ้าหาก style ของ div มีอยู่หรือ flex กดแล้วจะให้ปิดไม่แสดง หรือ none
     }
   },
   false
+  //ตั้งค่า event bubbling
 );
 
 
