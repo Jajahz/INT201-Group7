@@ -102,10 +102,6 @@ searchbtn.addEventListener(
 );
 
 
-document.addEventListener('DOMContentLoaded', function () {
-  showTshirt(tshirt);
-});
-
 const searchBar = document.getElementById("searchBar");
 
 searchBar.addEventListener('keyup', () => {
