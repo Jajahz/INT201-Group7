@@ -63,6 +63,24 @@ const showTshirt = (tshirt) => {
     card.appendChild(addtoCartButton);
     //ในส่วนของ element ที่เป็น card จะนำ classbody มาใส่ (appendChild) รวมถึงรูปภาพและปุ่ม
 
+    addtoCartButton.addEventListener('click', () => {
+      cartnumber(tshirtele.tshirtId);
+    })
+    
+    function cartnumber() {
+    let prodnum = sessionStorage.getItem('cartnumber')
+    
+    prodnum = parseInt(prodnum);
+    
+    if(prodnum){
+    sessionStorage.setItem('cartnumber', prodnum + 1);
+    document.querySelector('.cart span').textContent = prodnum + 1;
+    }else{
+    sessionStorage.setItem('cartnumber', 1);
+    document.querySelector('.cart span').textContent = 1;
+    }
+    }
+
     divTshirtEle.appendChild(card);
     divTshirtsEle.appendChild(divTshirtEle);
   }
@@ -73,12 +91,34 @@ const searchbtn = document.getElementById('mySearch');
 searchbtn.addEventListener(
   'click',
   () => {
-    const searchBar = document.getElementById('search');
-    if (searchBar.style.display === 'none') {
-      searchBar.setAttribute('style', 'display : flex !important;');
+    const search = document.getElementById('search');
+    if (search.style.display === 'none') {
+      search.setAttribute('style', 'display : flex !important;');
     } else {
-      searchBar.setAttribute('style', 'display : none !important;');
+      search.setAttribute('style', 'display : none !important;');
     }
   },
   false
 );
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  showTshirt(tshirt);
+});
+
+const searchBar = document.getElementById("searchBar");
+
+searchBar.addEventListener('keyup', () => {
+  const keyType = searchBar.value.trim();
+  const keyTypeLower = keyType.toLowerCase();
+  const tshirtMatch = tshirt.filter(tshirt =>
+    {
+      let tshirtNameKey = tshirt.tshirtName.toLowerCase()
+      let tshirtDescKey = tshirt.tshirtDesc.toLowerCase()
+
+      return tshirtNameKey.includes(keyTypeLower) ||
+      tshirtDescKey.includes(keyTypeLower)
+    }
+  )
+  return showTshirt(tshirtMatch)
+})
