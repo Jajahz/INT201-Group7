@@ -15,53 +15,72 @@
 </head>
 
 <body class = "bg-dark" style = "font-family: 'Prompt', sans-serif;"> 
-  <nav class="navbar navbar-light bg-light" id="navbar" style= "top: 0; width: 100%; display: block;">
+  <nav class="navbar navbar-light bg-light fixed-top" id="navbar" style= "top: 0; width: 100%; display: block; ">
 
-    <div class="container-fluid">
+    <div class="container-fluid" >
+      <div class="navStart" style="display: flex;justify-content: flex-start;">
+
+      <div class="carnival" >
       <a class="navbar-brand">
         <img src="./img/navlogo.png" width="150 px" alt="nav-logo">
       </a>
+    </div>
 
-      <form class="d-flex">
 
-        <svg id="mySearch" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
-          class="bi bi-search" viewBox="0 0 16 16" style="margin-right: 12;">
-          <path
-            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-        </svg>
+      <div class="nav-item" >
+        <h6 id= "user" class="cookiewelcome" style="color: rgb(125, 117, 182); margin: 5px;" ></h6>    
+     </div>
+ 
+</div>
 
-        <div id="search" class="d-flex d-none">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchBar">
+    <div class="navEnd" style="display: flex;justify-content: flex-end;">
+     <div class="searchInput" style="display: flex;align-items: center;">
+       <div class="toggle" style="display: flex;">
+      <svg id="mySearch" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="28" height="28" fill="currentColor"class="bi bi-search"  style="margin-right: 12;" >
+        <path
+          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+      </svg>
+    </div>
+      <form class="nav-item"style=" display: flex;align-items: center" >
+        <div id="search" class="input-group">
+          <input id="searchInput"type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+          aria-describedby="search-addon" />
+          <button id="searchBtn" type="button" class="btn btn-outline-secondary">search</button>
         </div>
-
       </form>
+    </div>
 
-      <div class="cart" style="display: inline;">
+      <div class="cart" style="  display: flex;align-items: center; margin-left: 12px;"  >
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart-fill"
           viewBox="0 0 16 16">
           <path
             d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
         </svg>
         <span id="numIncart">0</span>
+        
+        <div class="colorfulSwitch" style="margin-left: 12px;">
         Colorful Mode
         <label class="switch">
           <input type="checkbox" id="colbtn">
           <span class="slider round"></span>
         </label>
       </div>
-      
+      </div>
     </div>
 
+    </div>
+  
   </nav>
 
-
-  <div class="container" style="margin-top: 24px; display: flox;">
+  <div class="container" id = "main"style="margin-top: 80px; display: flox;">
     <div id="tshirtList" class="row row-cols-1 row-cols-md-4 g-4">
     </div>
+
   </div>
 
   <!-- ดึง Script เพื่อนำข้อมูล product แต่ละชิ้นมาโชว์ภายใน website -->
   <script src="./productLink.js" type="module"></script>
 </body>
 
+</html>
 </html>
