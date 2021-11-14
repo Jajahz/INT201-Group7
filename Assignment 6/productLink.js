@@ -1,4 +1,5 @@
 import { tshirts } from './Tshirt.js';
+import CookieUtil from './cookieUtil.js';
 
 const searchbtn = document.getElementById('mySearch');
 // ตั้งให้ searchbtn คือ id mysearch
@@ -146,3 +147,50 @@ if(productnum){
     divTshirtsEle.appendChild(divTshirtEle);
   }
 };
+
+
+let area = document.body;
+let head = document.getElementById('navbar');
+
+// goDefault=()=>{
+//   area.classList.remove('bg-warning');
+//   head.classList.remove('bg-danger');
+//   area.classList.add('bg-dark');
+//   head.classList.add('bg-light');
+//   CookieUtil.setCookie('default');
+// }
+
+// goColorful=()=>{
+//   area.classList.remove('bg-dark');
+//   head.classList.remove('bg-light');
+//   area.classList.add('bg-warning');
+//   head.classList.add('bg-danger');
+//   CookieUtil.setCookie('colorful');
+// }
+
+const colbtn = document.getElementById('colbtn');
+
+colbtn.addEventListener('click', 
+() => {
+
+  if(area.classList.contains('bg-dark')){
+  area.classList.remove('bg-dark');
+  head.classList.remove('bg-light');
+  area.classList.add('bg-warning');
+  head.classList.add('bg-danger');
+  CookieUtil.setCookie('colorful');
+  }else{
+  area.classList.remove('bg-warning');
+  head.classList.remove('bg-danger');
+  area.classList.add('bg-dark');
+  head.classList.add('bg-light');
+  CookieUtil.setCookie('default');
+  }
+
+},
+false
+)
+
+CookieUtil.checkCookie();
+
+document.cookie = "username=Asamaporn; theme=colorful; expire=Sat, 20 Nov 2021 12:00:00 UTC";
