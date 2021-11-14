@@ -1,14 +1,14 @@
 export class CookieUtil {
 
-  static setCookie(cvalue){
+  static setCookie(ckey,cvalue){
       let d = new Date();
       d.setTime(d.getTime() + (30*24*60*60*1000));
       let expires = "expires="+d.toUTCString();
-      document.cookie = "theme=" + cvalue + ";" + expires + "; path=/";
+      document.cookie = ckey+"=" + cvalue + ";" + expires + "; path=/";
   }
 
-  static getCookie(theme) {
-      var name = theme + "=";
+  static getCookie(ckey) {
+      var name = ckey + "=";
       var decodedCookie = decodeURIComponent(document.cookie);
       var ca = decodedCookie.split(';');
       for(var i = 0; i < ca.length; i++) {
@@ -26,24 +26,24 @@ export class CookieUtil {
   static checkCookie() {
     const colbtn = document.getElementById('colbtn');
     let head = document.getElementById('navbar');
-    let area = document.body;
+    // let area = document.body;
       var theme = this.getCookie('theme');
       if (theme == 'default') {
       document.body.className = 'bg-dark';
       head.className = 'navbar navbar-light bg-light';
-      // addtoCartBtn.className = 'btn btn-outline-dark btn-lg' ;
       colbtn.checked=false;
         
       }
       if (theme == 'colorful') {
       document.body.className = 'bg-info';
       head.className = 'navbar navbar-light bg-danger';
-      // addtoCartBtn.className = 'btn btn-outline-danger btn-lg' ;
       colbtn.checked=true;
       }
   }
-
-}
+  static unsunsetrt(name){
+    CookieUtil.setCookie(name,"",new Date(0))
+  }
+  }
 
 function guestName(name){ 
   let data = document.cookie;  //ดึงข้อมูลของ cookie เข้ามา
@@ -56,8 +56,7 @@ function guestName(name){
   }
 }
 
-
-CookieUtil.setCookie("username" , "guest" , new Date('January 1, 2022'));
+CookieUtil.setCookie("username", "asma");
 let user = document.querySelector("#user")
 user.textContent += `Login as : ${guestName("username")}`
 
