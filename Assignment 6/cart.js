@@ -20,11 +20,8 @@ export const cartEvents = {
             if (index !== -1) {
                 cartEvents.productadded[index].qty++;
             } else {
-            //   let cartAdd = {
-            //     tshirtId: tshirt.tshirtId,
-            //     qty: 1,
-            //   };
-              cartEvents.productadded.push({tshirtId: tshirt.tshirtId,qty: 1});
+
+              cartEvents.productadded.push({tshirtId: tshirt.tshirtId,tshirtName: tshirt.tshirtName,tshirtPrice:tshirt.tshirtName,qty: 1});
             }
         }
     localStorage.setItem('cart', JSON.stringify(cartEvents.productadded));
