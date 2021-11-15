@@ -6,7 +6,6 @@ import "./event.js";
 import "./theme.js";
 
 
-
 document.addEventListener('DOMContentLoaded', function () {
   showTshirt(tshirts);
 });
