@@ -40,7 +40,7 @@ export class CookieUtil {
       colbtn.checked=true;
       }
   }
-  static unsunsetrt(name){
+  static unsunset(name){
     CookieUtil.setCookie(name,"",new Date(0))
   }
   }

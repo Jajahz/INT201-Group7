@@ -3,6 +3,8 @@ import { cartEvents } from './cart.js';
 import { CookieUtil } from './cookieUtil.js'
 import "./event.js";
 import "./theme.js";
+import { theme } from './theme.js';
+
 
 document.addEventListener('DOMContentLoaded', function () {
   showTshirt(tshirts);
@@ -113,7 +115,7 @@ colbtn.addEventListener('click',
       area.classList.add('bg-dark');
       head.classList.add('bg-light');
     }
-    CookieUtil.toggleTheme();
+    theme.toggleTheme();
   },
   false
 )

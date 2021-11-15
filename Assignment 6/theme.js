@@ -1,7 +1,8 @@
+import {CookieUtil} from "./cookieUtil.js"
 
-
-function toggleTheme(){
-    var theme = this.getCookie('theme');
+export const theme = {
+  toggleTheme : function (){
+    var theme = CookieUtil.getCookie('theme');
     if(theme==="colorful"){
       theme ="default"
     }else{
@@ -9,3 +10,4 @@ function toggleTheme(){
     }
     CookieUtil.setCookie("theme",theme);
   }
+} 
