@@ -121,5 +121,3 @@ colbtn.addEventListener('click',
 )
 
 CookieUtil.checkCookie();
-// document.cookie = "username=Asamaporn; theme=colorful; expire=Sat, 20 Nov 2021 12:00:00 UTC";
-
