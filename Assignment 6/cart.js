@@ -21,7 +21,7 @@ export const cartEvents = {
                 cartEvents.productadded[index].qty++;
             } else {
 
-              cartEvents.productadded.push({tshirtId: tshirt.tshirtId,tshirtName: tshirt.tshirtName,tshirtPrice:tshirt.tshirtName,qty: 1});
+              cartEvents.productadded.push({tshirtId: tshirt.tshirtId,tshirtName: tshirt.tshirtName, tshirtPrice:tshirt.tshirtPrice,qty: 1});
             }
         }
     localStorage.setItem('cart', JSON.stringify(cartEvents.productadded));
@@ -43,6 +43,12 @@ export const cartEvents = {
             document.querySelector('.cart span').textContent = 1;
             // ถ้า Cart มีค่าเป็น 0 จะมาทำ else เพื่อที่จะนับค่าเป็น 1
         }
+    },   
+
+    resetcart: function () {
+    localStorage.removeItem('cartnumber');
+    localStorage.removeItem('cart');
+    document.querySelector('.cart span').textContent =  0;
     }
 }
     

@@ -85,6 +85,26 @@ export const showTshirt = (tshirts) => {
     // เป็นฟังก์ชันที่เอาไว้เรียก cartnumber เมื่อ Click          
     divTshirtEle.appendChild(card);
     divTshirtsEle.appendChild(divTshirtEle);
+
+    const removecart = document.querySelector('#reset')  
+
+    removecart.addEventListener('click', () => {
+      cartEvents.resetcart();
+    });
+
+  }
+
+  let cartNum = document.getElementById('numIncart');
+  let productnum = localStorage.getItem('cartnumber');
+  productnum = parseInt(productnum);
+
+  if (productnum == 0 || isNaN(productnum)){
+    cartNum.textContent = 0
+    console.log(productnum);
+    localStorage.setItem('cartnumber', 0);
+  }else{
+    cartNum.textContent = productnum;
+    console.log(productnum);
   }
 };
 
@@ -135,3 +155,35 @@ searchBtn.addEventListener(
   return showTshirt(tshirtMatch)
     // return method showTshirt เฉพาะที่เหมือนกับค่าที่ป้อนลงไป (keyTypeLower) หรือ สินค้าที่อยู่ใน tshirtMatch
   })
+
+const cart = document.getElementById("showCart");
+
+cart.addEventListener(
+  'click',
+  //ตั้งค่าให้ทำ event นี้เมื่อคลิก
+  () => {
+    let productInStock = localStorage.getItem('cart');
+    if (productInStock == undefined || productInStock === 0) {
+      productInStock = [];
+    } else {
+      productInStock = JSON.parse(productInStock);
+    }
+
+    let productnum = localStorage.getItem('cartnumber')
+    productnum = parseInt(productnum);
+
+    let totalprice = 0;
+    for (let tshirtIncart of productInStock) {
+      totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty)
+    }
+
+    if (productInStock == 0) {
+      alert("total price is 0 Baht, you haven't add anything to cart yet")
+    } else {
+      alert("you have " + productnum + " items in your cart, " + "total price is " + totalprice + " Baht")
+    }
+  }
+    ,
+  false
+  //ตั้งค่า event bubbling
+);
