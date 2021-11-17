@@ -25,8 +25,6 @@ export const cartEvents = {
             }
         }
     localStorage.setItem('cart', JSON.stringify(cartEvents.productadded));
-},  removeAll : function () {
-    return productadded = [];
 },
     cartNumber: function () {
         let productnum = localStorage.getItem('cartnumber')
