@@ -62,17 +62,6 @@ export class CookieUtil {
   }
   }
 
-function guestName(name){ 
-  let data = document.cookie;
-  let arrayOfCookie = data.split('; ');
-  for(let i of arrayOfCookie){
-      let key = i.split('=');
-      if(key[0] == name){
-          return key[1];
-      }
-  }
-}
-
 CookieUtil.setCookie("username", "asma");
 let user = document.querySelector("#user");
-user.textContent += `Login as : ${guestName("username")}`;
+user.textContent += `Login as : ${CookieUtil.getCookie("username")}`;

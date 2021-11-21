@@ -25,8 +25,10 @@ export const cartEvents = {
             }
         }
     localStorage.setItem('cart', JSON.stringify(cartEvents.productadded));
+},  removeAll : function () {
+    return productadded = [];
 },
-    cartNumber: function () {
+    cartNumber: function () { //เปลี่ยนชื่อ
         let productnum = localStorage.getItem('cartnumber')
         //เรียกใช้ข้อมูล cartnumber
         productnum = parseInt(productnum);
@@ -42,11 +44,10 @@ export const cartEvents = {
             // ถ้า Cart มีค่าเป็น 0 จะมาทำ else เพื่อที่จะนับค่าเป็น 1
         }
     },   
-
     resetcart: function () {
     localStorage.removeItem('cartnumber');
     localStorage.removeItem('cart');
-    document.querySelector('.cart span').textContent =  0;
+    document.querySelector('.cart span').textContent =  0; //ควรแยกส่วน
     }
 }
     

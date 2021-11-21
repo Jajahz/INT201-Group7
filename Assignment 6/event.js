@@ -81,7 +81,7 @@ export const showTshirt = (tshirts) => {
     card.appendChild(cardBody);
     card.appendChild(addtoCartButton);
     //ในส่วนของ element ที่เป็น card จะนำ classbody มาใส่ (appendChild) รวมถึงรูปภาพและปุ่ม
-
+    
     // เป็นฟังก์ชันที่เอาไว้เรียก cartnumber เมื่อ Click          
     divTshirtEle.appendChild(card);
     divTshirtsEle.appendChild(divTshirtEle);
@@ -151,7 +151,6 @@ searchBtn.addEventListener(
       // โดยใช้คำส่ง filter โดยภายในจะทำการเปรียบเทียบ name และ description ที่ตรงการข้อมูลที่ป้อนด้วยใช้คำส่าง includes  
     }
     )
-    console.log(tshirtMatch)
   return showTshirt(tshirtMatch)
     // return method showTshirt เฉพาะที่เหมือนกับค่าที่ป้อนลงไป (keyTypeLower) หรือ สินค้าที่อยู่ใน tshirtMatch
   })
@@ -171,7 +170,7 @@ cart.addEventListener(
 
     let productnum = localStorage.getItem('cartnumber')
     productnum = parseInt(productnum);
-
+// ควรใช้ reduce
     let totalprice = 0;
     for (let tshirtIncart of productInStock) {
       totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty)
