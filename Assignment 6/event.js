@@ -51,8 +51,8 @@ export const showTshirt = (tshirts) => {
     addtoCartButton.setAttribute('class', 'btn btn-outline-dark btn-lg');
     addtoCartButton.setAttribute('style', 'margin: 4px;');
     addtoCartButton.addEventListener('click', () => {
-      cartEvents.cartNumber();
       cartEvents.add(tshirtele);
+      cartEvents.AmountOnCart();
     });
     //สร้าง element button สำหรับปุ่มเพิ่มลงตะหร้า addtocart โดยใช้ bootsttrap ในการตกแต่งเพิ่มเติม
 
@@ -89,7 +89,7 @@ export const showTshirt = (tshirts) => {
     const removecart = document.querySelector('#reset')  
 
     removecart.addEventListener('click', () => {
-      cartEvents.resetcart();
+      cartEvents.resetCart();
     });
 
   }
@@ -100,11 +100,9 @@ export const showTshirt = (tshirts) => {
 
   if (productnum == 0 || isNaN(productnum)){
     cartNum.textContent = 0
-    console.log(productnum);
     localStorage.setItem('cartnumber', 0);
   }else{
     cartNum.textContent = productnum;
-    console.log(productnum);
   }
 };
 
@@ -115,7 +113,6 @@ searchbtn.addEventListener(
   //ตั้งค่าให้ทำ event นี้เมื่อคลิก
   () => {
     const search = document.getElementById('search');
-
     // ตั้งให้ search คือ id search
     if (search.style.display === 'none') {
       search.setAttribute('style', 'display : flex !important; ');
@@ -170,17 +167,21 @@ cart.addEventListener(
 
     let productnum = localStorage.getItem('cartnumber')
     productnum = parseInt(productnum);
-// ควรใช้ reduce
-    let totalprice = 0;
-    for (let tshirtIncart of productInStock) {
-      totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty)
-    }
+    // ควรใช้ reduce
+    let totalprice = tshirtIncart.reduce((prep,curp) => {
+      return totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty);
+    })
 
-    if (productInStock == 0) {
-      alert("total price is 0 Baht, you haven't add anything to cart yet")
-    } else {
-      alert("you have " + productnum + " items in your cart, " + "total price is " + totalprice + " Baht")
-    }
+    // let totalprice = 0;
+    // for (let tshirtIncart of productInStock) {
+    //   totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty)
+    // }
+
+    // if (productInStock == 0) {
+    //   alert("total price is 0 Baht, you haven't add anything to cart yet")
+    // } else {
+    //   alert("you have " + productnum + " items in your cart, " + "total price is " + totalprice + " Baht")
+    // }
   }
     ,
   false
