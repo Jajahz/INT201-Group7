@@ -12,6 +12,7 @@ const searchBtn = document.getElementById("searchBtn");
 const cart = document.getElementById("showCart");
 const removecart = document.getElementById('reset')  
 
+// object productEvent เก็บฟังก์ชันต่าง ๆ 
 export const productEvent = {  showTshirt : function (tshirts) {
   const divTshirtsEle = document.querySelector('#tshirtList');
   divTshirtsEle.innerHTML = null;
@@ -92,14 +93,14 @@ export const productEvent = {  showTshirt : function (tshirts) {
 }},
 getPresentcart : function(){
   let cartNum = document.getElementById('numIncart');
-  let productnum = localStorage.getItem('cartnumber');
-  productnum = parseInt(productnum);
+  let productnum = cartEvents.getAmountInCart();
   if (productnum == 0 || isNaN(productnum)){
     cartNum.textContent = 0
-    localStorage.setItem('cartnumber', 0);
   }else{
     cartNum.textContent = productnum;
   }
+// getPresentcart() เป็น ฟังก์ชันสำหรับเรียก จำนวนสินค้าภายในรถเข็นที่อยู่ใน localstorage มาเมื่อมีการรีเฟรชหน้า
+// ใช้ค่าที่ cartEvents.getAmountInCart() return ออกมา เพื่อการตรวจสอบและแสดงผล
 },
 getPresentSearchBar : function(){
   let displayStatus = localStorage.getItem('searchBarDisplay');
@@ -109,43 +110,62 @@ getPresentSearchBar : function(){
   }else if (displayStatus==1){ 
     search.setAttribute('style', 'display : flex !important; ');
   }
+// getPresentSearchBar() เป็นฟังก์ชันสำหรับเรียกข้อมูล searchBarDisplay ใน local storage มาแสดงผล การ displayของsearchbar เมื่อมีการรีเฟรชหน้า
+// ให้แสดงผลตามเงื่อนไขที่ตั้งไว้ 0 = ไม่แสดง searchbar, 1 = แสดง search bar
 }, updateAll : function() {
   productEvent.getPresentSearchBar();
   productEvent.getPresentcart();
 },
+// นำฟังก์ชัน getPresentSearchBar() และ getPresentcart() มาอยู่ภายใตฟังก์ชัน updateAll() ทำให้ใช้คำสั่งเรียกเพียงแค่ครั้งเดียว
 hideItem:function(tshirt){
-  console.log(tshirt);
   tshirt.forEach(element => {
     let tshirtHide = document.getElementById(element.tshirtId);
     tshirtHide.setAttribute('style','display : none !important;')
+  // ใส่ css display none ให้กับ divของclassสินค้า (ตั้งชื่อตาม tshirtId จึงสามารถ getElementById(element.tshirtId) ได้)
+  // โดยฟังก์ชันนี้จะไปใช้กับการแสดงผล
   });
 },
 displayAll:function(){
   tshirts.forEach(element => {
     let showTshirt = document.getElementById(element.tshirtId);
     showTshirt.setAttribute('style', 'display : flex !important; ');
+  // ใส่ css display flex ให้กับ divของclassสินค้าทั้งหมด (ตั้งชื่อตาม tshirtId จึงสามารถ getElementById(element.tshirtId) ได้)
+  // โดยฟังก์ชันนี้จะไปใช้กับการแสดงผลเช่นกัน
   });
+},
+calculateTotalPrice:function(){
+  let productInStock = cartEvents.getCart();
+    let productnum = cartEvents.getAmountInCart();
+    let totalprice = productInStock.reduce((prep,curp)=>prep+(curp.tshirtPrice*curp.qty),0);
+    if (productInStock == 0) {
+      alert("total price is 0 Baht, you haven't add anything to cart yet");
+    } else {
+      alert(`you have ${productnum} items in your cart, total price is ${totalprice} Baht`);
+    }
+    //ฟังก์ชันสำหรับคำณวนสินค้าภายใน โดยดึงฟังก์ชัน cartEvents.getCart() มาใช้เพื่อคำณวนหาราคาของสินค้าภายในตะกร้าทั้งหมด
+    //โดยคำณวนจาก นำราคามาคูณกับจำนวน และสะสมไปเรื่อยๆ ด้วยคำสั่ง reduce
+    //และแสดงผลตามเงื่อนไข
 }
 }
 removecart.addEventListener('click', () => {
   cartEvents.resetCart();
+  // เรียก ฟังก์ชัน resetCart() ภายใน cartEvents เทื่อ click ปุ่มreset
 });
 
 searchbtn.addEventListener(
   'click',
-  //ตั้งค่าให้ทำ event นี้เมื่อคลิก
   () => {
     if (search.style.display === 'none') {
       search.setAttribute('style', 'display : flex !important; ');
-      //ถ้าหาก style ของ div ไม่มีอยู่หรือ none กดแล้วจะให้แสดงออกมา หรือ flex
     } else {
       search.setAttribute('style', 'display : none !important; ');
-      //ถ้าหาก style ของ div มีอยู่หรือ flex กดแล้วจะให้ปิดไม่แสดง หรือ none
     }
     toggle.toggleSearchBar();
   },
   false
-  //ตั้งค่า event bubbling
+  //ตั้งค่่า event bubbling เมื่อ click ที่icon แว่นขยาย
+  //ถ้าหาก style ของ div ไม่มีอยู่หรือ none กดแล้วจะให้แสดงออกมา หรือ flex
+  //ถ้าหาก style ของ div มีอยู่หรือ flex กดแล้วจะให้ปิดไม่แสดง หรือ none
 );
 
 searchBtn.addEventListener(
@@ -153,21 +173,20 @@ searchBtn.addEventListener(
   , () => {
     const keyType = searchInput.value.trim();
     const keyTypeLower = keyType.toLowerCase();
-    const tshirtMatch = tshirts.filter(tshirt => {
+    const tshirtNotMatch = tshirts.filter(tshirt => {
       let tshirtNameKey = tshirt.tshirtName.toLowerCase()
-      let tshirtDescKey = tshirt.tshirtDesc.toLowerCase()
-
-      return !tshirtNameKey.includes(keyTypeLower) ||
-        tshirtDescKey.includes(keyTypeLower)
-      // tshirtMatch จะ return tshirts ที่มี name หรือ description เหมือนกับค่าที่ป้อนลงไปใน input
-      // โดยใช้คำส่ง filter โดยภายในจะทำการเปรียบเทียบ name และ description ที่ตรงการข้อมูลที่ป้อนด้วยใช้คำส่าง includes  
+      return !tshirtNameKey.includes(keyTypeLower) 
     }
     )
     if(keyTypeLower==''){
       return productEvent.displayAll();
     } else {
-       return productEvent.hideItem(tshirtMatch)} 
-    // return method showTshirt เฉพาะที่เหมือนกับค่าที่ป้อนลงไป (keyTypeLower) หรือ สินค้าที่อยู่ใน tshirtMatch
+       return productEvent.hideItem(tshirtNotMatch)} 
+      // tshirtNotMatch จะ return tshirts ที่มี name หรือ description "ไม่เหมือน"กับค่าที่ป้อนลงไปใน input
+      // โดยใช้คำส่ง filter โดยภายในจะทำการเปรียบเทียบ name และ description ที่ตรงข้ามกับข้อมูลที่ป้อนด้วยใช้คำสั่ง  ! includes
+      // และให้ return tshirt ที่ไม่ตรงกับที่ป้อนไป 
+      // และตรวจจับเงื่อนไข หากค่าที่ป้อนไปเป็นค่าว่าง จะเรียกใช้คำสั่ง productEvent.displayAll();
+      // หากไม่เป็นค่าว่างให้เรียกใช้ hideItem(tshirtNotMatch)
   })
 
   searchInput.addEventListener('keyup'
@@ -176,44 +195,18 @@ searchBtn.addEventListener(
     const keyTypeLower = keyType.toLowerCase();
     if(keyTypeLower==''){
       return productEvent.displayAll();}})
-  
+// เมื่อลบข้อมูลที่ป้อนใน searchbutton ด้วย backspaceจนข้อมูลนั้นเป็น ""
+// ให้แสดงผลสินค้าทั้งหมด ด้วยฟังก์ชัน productEvent.displayAll()
+
 cart.addEventListener(
   'click',
-  //ตั้งค่าให้ทำ event นี้เมื่อคลิก
   () => {
-    let productInStock = localStorage.getItem('cart');
-    if (productInStock == undefined || productInStock === 0) {
-      productInStock = [];
-    } else {
-      productInStock = JSON.parse(productInStock);
-    }
-    let productnum = localStorage.getItem('cartnumber')
-    productnum = parseInt(productnum);
-
-    // ควรใช้ reduce
-    // let totalprice = tshirtIncart.reduce((prep,curp) => {
-    //   return totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty);
-    // })
-    
-    let totalprice = 0;
-    for (let tshirtIncart of productInStock) {
-      totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty)
-    }
-
-    if (productInStock == 0) {
-      alert("total price is 0 Baht, you haven't add anything to cart yet");
-    } else {
-      alert(`you have ${productnum} items in your cart, total price is ${totalprice} Baht`);
-    }
-  }
-    ,
-  false
-  //ตั้งค่า event bubbling
-);
+    productEvent.calculateTotalPrice();
+  },false);
+// เรียกใช้ function calculateTotalPrice() เมื่อมีการคลิกที่ไอค่อนรถเข็น
 
 colbtn.addEventListener('click',
   () => {
-
     let area = document.body;
     let head = document.getElementById('navbar');
     let resetbtn = document.getElementById('reset');
@@ -249,6 +242,7 @@ colbtn.addEventListener('click',
     toggle.toggleTheme();
   },
   false
+  // เปลี่ยน css เมื่อมีการ click ที่ปุ่มเปลี่ยน theme 
 )
 
 CookieUtil.checkCookie();
