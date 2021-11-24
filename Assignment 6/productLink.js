@@ -3,8 +3,6 @@ import { CookieUtil } from './cookieUtil.js'
 import { theme } from './theme.js';
 import { showTshirt } from './event.js';
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
   showTshirt(tshirts);
 });

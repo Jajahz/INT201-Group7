@@ -1,5 +1,6 @@
 import {CookieUtil} from "./cookieUtil.js"
 
+
 export const theme = {
   toggleTheme : function (){
     var theme = CookieUtil.getCookie('theme');
