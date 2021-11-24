@@ -1,7 +1,16 @@
 import { tshirts } from './Tshirt.js';
 import { cartEvents } from './cart.js';
-
 import  './productLink.js';
+import { toggle } from './toggle.js';
+import { CookieUtil } from './cookieUtil.js'
+
+const colbtn = document.getElementById('colbtn');
+const search = document.getElementById('search');
+const searchbtn = document.getElementById('mySearch');
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+const cart = document.getElementById("showCart");
+const removecart = document.getElementById('reset')  
 
 export const showTshirt = (tshirts) => {
   const divTshirtsEle = document.querySelector('#tshirtList');
@@ -86,14 +95,9 @@ export const showTshirt = (tshirts) => {
     divTshirtEle.appendChild(card);
     divTshirtsEle.appendChild(divTshirtEle);
 
-    const removecart = document.querySelector('#reset')  
+}};
 
-    removecart.addEventListener('click', () => {
-      cartEvents.resetCart();
-    });
-
-  }
-
+export function getPresentcart(){
   let cartNum = document.getElementById('numIncart');
   let productnum = localStorage.getItem('cartnumber');
   productnum = parseInt(productnum);
@@ -104,16 +108,26 @@ export const showTshirt = (tshirts) => {
   }else{
     cartNum.textContent = productnum;
   }
-};
+}
 
-const searchbtn = document.getElementById('mySearch');
-// ตั้งให้ searchbtn คือ id mysearch
+export function getPresentSearchBar(){
+  let displayStatus = localStorage.getItem('searchBarDisplay');
+  displayStatus = parseInt(displayStatus);
+  if (displayStatus == 0){
+    search.setAttribute('style', 'display : none !important; ');
+  }else if (displayStatus==1){ 
+    search.setAttribute('style', 'display : flex !important; ');
+  }
+}
+
+removecart.addEventListener('click', () => {
+  cartEvents.resetCart();
+});
+
 searchbtn.addEventListener(
   'click',
   //ตั้งค่าให้ทำ event นี้เมื่อคลิก
   () => {
-    const search = document.getElementById('search');
-    // ตั้งให้ search คือ id search
     if (search.style.display === 'none') {
       search.setAttribute('style', 'display : flex !important; ');
       //ถ้าหาก style ของ div ไม่มีอยู่หรือ none กดแล้วจะให้แสดงออกมา หรือ flex
@@ -121,15 +135,12 @@ searchbtn.addEventListener(
       search.setAttribute('style', 'display : none !important; ');
       //ถ้าหาก style ของ div มีอยู่หรือ flex กดแล้วจะให้ปิดไม่แสดง หรือ none
     }
+    toggle.toggleSearchBar();
   },
   false
   //ตั้งค่า event bubbling
 );
 
-
-const searchInput = document.getElementById("searchInput");
-const searchBtn = document.getElementById("searchBtn");
-// ตั้งให้ searchInput คือ id searchBar
 searchBtn.addEventListener(
   'click'
   , () => {
@@ -152,8 +163,6 @@ searchBtn.addEventListener(
     // return method showTshirt เฉพาะที่เหมือนกับค่าที่ป้อนลงไป (keyTypeLower) หรือ สินค้าที่อยู่ใน tshirtMatch
   })
 
-const cart = document.getElementById("showCart");
-
 cart.addEventListener(
   'click',
   //ตั้งค่าให้ทำ event นี้เมื่อคลิก
@@ -168,22 +177,63 @@ cart.addEventListener(
     let productnum = localStorage.getItem('cartnumber')
     productnum = parseInt(productnum);
     // ควรใช้ reduce
-    let totalprice = tshirtIncart.reduce((prep,curp) => {
-      return totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty);
-    })
+    // let totalprice = tshirtIncart.reduce((prep,curp) => {
+    //   return totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty);
+    // })
+    let totalprice = 0;
+    for (let tshirtIncart of productInStock) {
+      totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty)
+    }
 
-    // let totalprice = 0;
-    // for (let tshirtIncart of productInStock) {
-    //   totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty)
-    // }
-
-    // if (productInStock == 0) {
-    //   alert("total price is 0 Baht, you haven't add anything to cart yet")
-    // } else {
-    //   alert("you have " + productnum + " items in your cart, " + "total price is " + totalprice + " Baht")
-    // }
+    if (productInStock == 0) {
+      alert("total price is 0 Baht, you haven't add anything to cart yet")
+    } else {
+      alert("you have " + productnum + " items in your cart, " + "total price is " + totalprice + " Baht")
+    }
   }
     ,
   false
   //ตั้งค่า event bubbling
 );
+
+colbtn.addEventListener('click',
+  () => {
+
+    let area = document.body;
+    let head = document.getElementById('navbar');
+    let resetbtn = document.getElementById('reset');
+    let user = document.getElementById('user');
+    let search = document.getElementById('searchBtn');
+    let text = document.getElementById('text');
+
+    if (area.classList.contains('bg-dark')) {
+      area.classList.remove('bg-dark');
+      head.classList.remove('bg-light');
+      resetbtn.classList.remove('btn-danger');
+      search.classList.remove('btn-outline-secondary');
+
+      area.classList.add('bg-info');
+      head.classList.add('bg-danger');
+      resetbtn.classList.add('btn-light');
+      user.setAttribute('style','color: white');
+      text.setAttribute('style', 'color: white');
+      search.classList.add('btn-outline-warning');
+    } else {
+      area.classList.remove('bg-info');
+      head.classList.remove('bg-danger');
+      resetbtn.classList.remove('btn-light');
+      search.classList.remove('btn-outline-warning');
+
+      area.classList.add('bg-dark');
+      head.classList.add('bg-light');
+      resetbtn.classList.add('btn-danger');
+      user.setAttribute('style','color: rgb(125, 117, 182)');
+      text.setAttribute('style', 'color: black');
+      search.classList.add('btn-outline-secondary');
+    }
+    toggle.toggleTheme();
+  },
+  false
+)
+
+CookieUtil.checkCookie();
