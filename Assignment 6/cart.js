@@ -41,3 +41,4 @@ export const cartEvents = {
         document.querySelector('.cart span').textContent = 0;
     }
 }
+

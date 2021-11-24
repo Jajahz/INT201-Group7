@@ -167,17 +167,21 @@ cart.addEventListener(
 
     let productnum = localStorage.getItem('cartnumber')
     productnum = parseInt(productnum);
-// ควรใช้ reduce
-    let totalprice = 0;
-    for (let tshirtIncart of productInStock) {
-      totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty)
-    }
+    // ควรใช้ reduce
+    let totalprice = tshirtIncart.reduce((prep,curp) => {
+      return totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty);
+    })
 
-    if (productInStock == 0) {
-      alert("total price is 0 Baht, you haven't add anything to cart yet")
-    } else {
-      alert("you have " + productnum + " items in your cart, " + "total price is " + totalprice + " Baht")
-    }
+    // let totalprice = 0;
+    // for (let tshirtIncart of productInStock) {
+    //   totalprice = totalprice + (tshirtIncart.tshirtPrice * tshirtIncart.qty)
+    // }
+
+    // if (productInStock == 0) {
+    //   alert("total price is 0 Baht, you haven't add anything to cart yet")
+    // } else {
+    //   alert("you have " + productnum + " items in your cart, " + "total price is " + totalprice + " Baht")
+    // }
   }
     ,
   false
