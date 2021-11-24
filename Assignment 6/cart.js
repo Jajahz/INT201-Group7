@@ -20,6 +20,7 @@ export const cartEvents = {
             }
         }
         localStorage.setItem('cart', JSON.stringify(cartEvents.productadded));
+        cartEvents.AmountOnCart();
     },
     getTotalAmount: function () {
         let totalItemInCart = 0

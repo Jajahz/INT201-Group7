@@ -12,12 +12,11 @@ const searchBtn = document.getElementById("searchBtn");
 const cart = document.getElementById("showCart");
 const removecart = document.getElementById('reset')  
 
-export const showTshirt = (tshirts) => {
+export const productEvent = {  showTshirt : function (tshirts) {
   const divTshirtsEle = document.querySelector('#tshirtList');
   divTshirtsEle.innerHTML = null;
   // กำหนด inner html ของ tshirtlist (divTshirtsEle) ให้มีค่า = null 
   // เพื่อไม่ให้มีข้อมูลสินค้าเก่าออกมาทุกครั้งที่มีการเรียก showTshirt()
-
   if (tshirts.length == 0) {
     const notFoundT = document.createElement("h1");
     notFoundT.setAttribute('class', 'display-6 text-white');
@@ -60,7 +59,6 @@ export const showTshirt = (tshirts) => {
     addtoCartButton.setAttribute('style', 'margin: 4px;');
     addtoCartButton.addEventListener('click', () => {
       cartEvents.add(tshirtele);
-      cartEvents.AmountOnCart();
     });
     //สร้าง element button สำหรับปุ่มเพิ่มลงตะหร้า addtocart โดยใช้ bootsttrap ในการตกแต่งเพิ่มเติม
 
@@ -84,32 +82,26 @@ export const showTshirt = (tshirts) => {
     cardBody.appendChild(TshirtStock);
     cardBody.appendChild(tshirtPrice);
     //ในส่วนของ card body นำ element ประเภทข้อมูลมาใส่ เช่น ชื่อสินค้า จำนวนสินค้า ราคาสินค้า และ คำบรรยาย
-
     card.appendChild(tshirtImage);
     card.appendChild(cardBody);
     card.appendChild(addtoCartButton);
     //ในส่วนของ element ที่เป็น card จะนำ classbody มาใส่ (appendChild) รวมถึงรูปภาพและปุ่ม
     
-    // เป็นฟังก์ชันที่เอาไว้เรียก cartnumber เมื่อ Click          
     divTshirtEle.appendChild(card);
     divTshirtsEle.appendChild(divTshirtEle);
-
-}};
-
-export function getPresentcart(){
+}},
+getPresentcart : function(){
   let cartNum = document.getElementById('numIncart');
   let productnum = localStorage.getItem('cartnumber');
   productnum = parseInt(productnum);
-
   if (productnum == 0 || isNaN(productnum)){
     cartNum.textContent = 0
     localStorage.setItem('cartnumber', 0);
   }else{
     cartNum.textContent = productnum;
   }
-}
-
-export function getPresentSearchBar(){
+},
+getPresentSearchBar : function(){
   let displayStatus = localStorage.getItem('searchBarDisplay');
   displayStatus = parseInt(displayStatus);
   if (displayStatus == 0){
@@ -117,8 +109,24 @@ export function getPresentSearchBar(){
   }else if (displayStatus==1){ 
     search.setAttribute('style', 'display : flex !important; ');
   }
+}, updateAll : function() {
+  productEvent.getPresentSearchBar();
+  productEvent.getPresentcart();
+},
+hideItem:function(tshirt){
+  console.log(tshirt);
+  tshirt.forEach(element => {
+    let tshirtHide = document.getElementById(element.tshirtId);
+    tshirtHide.setAttribute('style','display : none !important;')
+  });
+},
+displayAll:function(){
+  tshirts.forEach(element => {
+    let showTshirt = document.getElementById(element.tshirtId);
+    showTshirt.setAttribute('style', 'display : flex !important; ');
+  });
 }
-
+}
 removecart.addEventListener('click', () => {
   cartEvents.resetCart();
 });
@@ -143,25 +151,32 @@ searchbtn.addEventListener(
 searchBtn.addEventListener(
   'click'
   , () => {
-    
     const keyType = searchInput.value.trim();
     const keyTypeLower = keyType.toLowerCase();
     const tshirtMatch = tshirts.filter(tshirt => {
       let tshirtNameKey = tshirt.tshirtName.toLowerCase()
       let tshirtDescKey = tshirt.tshirtDesc.toLowerCase()
 
-      return tshirtNameKey.includes(keyTypeLower) ||
+      return !tshirtNameKey.includes(keyTypeLower) ||
         tshirtDescKey.includes(keyTypeLower)
-
-
       // tshirtMatch จะ return tshirts ที่มี name หรือ description เหมือนกับค่าที่ป้อนลงไปใน input
       // โดยใช้คำส่ง filter โดยภายในจะทำการเปรียบเทียบ name และ description ที่ตรงการข้อมูลที่ป้อนด้วยใช้คำส่าง includes  
     }
     )
-  return showTshirt(tshirtMatch)
+    if(keyTypeLower==''){
+      return productEvent.displayAll();
+    } else {
+       return productEvent.hideItem(tshirtMatch)} 
     // return method showTshirt เฉพาะที่เหมือนกับค่าที่ป้อนลงไป (keyTypeLower) หรือ สินค้าที่อยู่ใน tshirtMatch
   })
 
+  searchInput.addEventListener('keyup'
+  , () => {
+    const keyType = searchInput.value.trim();
+    const keyTypeLower = keyType.toLowerCase();
+    if(keyTypeLower==''){
+      return productEvent.displayAll();}})
+  
 cart.addEventListener(
   'click',
   //ตั้งค่าให้ทำ event นี้เมื่อคลิก
@@ -172,7 +187,6 @@ cart.addEventListener(
     } else {
       productInStock = JSON.parse(productInStock);
     }
-
     let productnum = localStorage.getItem('cartnumber')
     productnum = parseInt(productnum);
 
