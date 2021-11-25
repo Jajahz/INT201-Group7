@@ -6,7 +6,7 @@ export class CookieUtil {
       let expires = "expires="+ d.toUTCString();
       document.cookie = ckey + "=" + cvalue + ";" + expires + "; path=/";
   }
-
+  
   static getCookie(ckey) {
       var name = ckey + "=";
       var decodedCookie = decodeURIComponent(document.cookie);
@@ -61,7 +61,7 @@ export class CookieUtil {
     CookieUtil.setCookie(name,"",new Date(0));
   }
   }
-
-CookieUtil.setCookie("username", "asma");
+// ทดลองการเรียกใช้ cookie ไปแสดงผล
+CookieUtil.setCookie("username", "Group7_Sec3");
 let user = document.querySelector("#user");
 user.textContent += `Login as : ${CookieUtil.getCookie("username")}`;
