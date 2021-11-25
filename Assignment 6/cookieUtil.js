@@ -57,7 +57,7 @@ export class CookieUtil {
       // เป็นการ fix ค่าว่าเรากดไปที่ default ตอนเรากดเข้ามาใหม่ เราจะเก็บค่า class เป็นแบบนี้
       }
   }
-  static unsunset(name){
+  static unsetCookie(name){
     CookieUtil.setCookie(name,"",new Date(0));
   }
   }
